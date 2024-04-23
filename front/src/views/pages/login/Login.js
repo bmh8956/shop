@@ -55,7 +55,7 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
         pwd: pwd
       }
   
-      await axios.post("http://localhost:3000/user/login", req)
+      await axios.post("http://localhost:3011/memberTest/memberloginTest", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);
@@ -92,11 +92,17 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
                     <h1>로그인</h1>
                     <p className="text-body-secondary"></p>
                     <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput placeholder="이메일" autoComplete="username" />
-                    </CInputGroup>
+  <CInputGroupText>
+    <CIcon icon={cilUser} />
+  </CInputGroupText>
+  <CFormInput
+    placeholder="아이디"
+    autoComplete="userid"
+    value={id}
+    onChange={changeId}
+   
+  />
+</CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
@@ -105,6 +111,8 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
                         type="password"
                         placeholder="비밀번호"
                         autoComplete="current-password"
+                        value={pwd}
+                        onChange={changePwd}
                       />
                     </CInputGroup>
                     <CRow>
