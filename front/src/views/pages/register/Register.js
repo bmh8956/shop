@@ -18,14 +18,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 function Join() {
+  
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [gender, setgender] = useState("");
 	const [birth, setbirth] = useState("");
   const [email, setEmail] = useState("");
-	const [Pwd, setPwd] = useState("");
+	const [pwd, setPwd] = useState("");
 	const [checkPwd, setCheckPwd] = useState("");
 	
   const navigate = useNavigate();
+
+  const changeid = (event) => {
+		setId(event.target.value);
+	}
+
   
   const changeName = (event) => {
 		setName(event.target.value);
@@ -51,18 +58,19 @@ function Join() {
 		setCheckPwd(event.target.value);
 	}
 
-}
 
-const Register = /* async */() => {
+
+const join = async() => {
     /* 회원가입 로컬*/
-    /* 
+    
     const req = {
+      id: id,
       name: name,
       gender: gender,
       birth: birth,
-      Email: Email,
-      Pwd: Pwd;
-      CheckPwd: CheckPwd
+      email: email,
+      pwd: pwd,
+      checkPwd: checkPwd
     }
     
     await axios.post("http://localhost:3011/user/join", req)
@@ -85,7 +93,7 @@ const Register = /* async */() => {
 				}
 			});    
         
-    */
+   
          /* / 오류날수있음                네트워크 통신  주석처리*/
    
 
@@ -150,7 +158,7 @@ const Register = /* async */() => {
 
           
                   <div className="d-grid">
-                    <CButton color="success">회원가입</CButton>
+                  <CButton color="success" onClick={join}>회원가입</CButton>
                   </div>
                 </CForm>
               </CCardBody>
@@ -162,4 +170,5 @@ const Register = /* async */() => {
   )
 }
 
-export default Register
+}
+export default Join;
