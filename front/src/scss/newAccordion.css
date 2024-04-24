@@ -19,4 +19,34 @@
     display: none;
   }
   
+  .ordertable {
+    padding: 0;
+    font-family: Spoqa Han Sans Neo;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    max-width: 1280px;
+    height: 60px;
+    border-radius: 10px;
+    background: #f2f2f2;
+    margin: 0;
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    place-items: center;
+    width: 95%;
+  }
   
+  .noncart {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: Spoqa Han Sans Neo;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 23px;
+    color: #000000;
+    text-align: center;
+  }

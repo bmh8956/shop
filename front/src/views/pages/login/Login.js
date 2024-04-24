@@ -39,15 +39,41 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
   
     const [id, setId] = useState("");
     const [pwd, setPwd] = useState("");
-  
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+   /*  원본 
     const changeId = (event) => {
       setId(event.target.value);
     }
+    */
+
+    const changeId = (event) => {
+      setId(event.target.value);
+      // 이메일 형식 유효성 검사
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(event.target.value)) {
+        setEmailError('이메일을 입력해주세요.');
+      } else {
+        setEmailError('');
+      }
+    };
+
+  /*   const changePwd = (event) => {
+      setPwd(event.target.value);
+    } */
   
     const changePwd = (event) => {
       setPwd(event.target.value);
-    }
-  
+      // 비밀번호 유효성 검사
+      if (event.target.value.length < 8) {
+        setPasswordError('비밀번호는 8자 이상이어야 합니다.');
+      } else {
+        setPasswordError('');
+      }
+    };
+
+
     const login = async () => {
   
       const req = {
@@ -55,7 +81,7 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
         pwd: pwd
       }
   
-      await axios.post("http://localhost:3011/member/login", req)
+      await axios.post("http://localhost:3011/member/test", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);
@@ -100,8 +126,9 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
     autoComplete="userid"
     value={id}
     onChange={changeId}
-   
+    invalid={!!emailError}
   />
+   {emailError && <div className="invalid-feedback">{emailError}</div>}
 </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -113,11 +140,12 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
                         autoComplete="current-password"
                         value={pwd}
                         onChange={changePwd}
+                        invalid={!!passwordError}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                      <CButton color="primary" className="px-4" onClick={login}>로그인</CButton>
+                      <CButton type="submit" color="primary" className="px-4" onClick={login}>로그인</CButton>
                       </CCol>
                       <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
@@ -136,7 +164,7 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
                     지금 가입하면 포인트 증정!!
                     </p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
+                      <CButton type="submit" color="primary" className="mt-3" active tabIndex={-1}>
                         이메일로 가입하기
                       </CButton>
                     </Link>

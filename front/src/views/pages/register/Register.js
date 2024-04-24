@@ -4,7 +4,7 @@ import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
 import axios from "axios";
 import { useNavigate } from "react-router";
-
+import { CFormCheck } from '@coreui/react';
 function Join() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -43,6 +43,25 @@ function Join() {
   const handleChangeConfirmPassword = (event) => {
     setConfirmPassword(event.target.value);
   }
+  /* 유효성 나중에 확인용 
+  // 이메일 유효성 검사 (xx@xxxx.xx)
+
+const isEmail = email => {
+    const emailRegex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
+    return emailRegex.test(email);
+};
+
+const isEmailValid = isEmail(email); 
+
+// 비밀번호 유효성 검사 (대소문자,숫자,특수문자 포함 8자리 이상)
+
+const isPw = pw => {
+    const pwRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    return pwRegex.test(pw);
+};
+
+const isPwValid = isPw(pw);
+  */
 
   const handleJoin = async () => {
     const req = {
@@ -56,7 +75,7 @@ function Join() {
     }
     
     /* await axios.post("http://localhost:3011/user/join", req) */
-       await axios.post("http://localhost:3011/member/id", req)
+       await axios.post("http://localhost:3011/member/join", req)
       .then((resp) => {
         console.log("[Join.js] join() success :D");
         console.log(resp.data);
@@ -95,10 +114,36 @@ function Join() {
                     <CFormInput placeholder="이름" autoComplete="username" onChange={handleChangeName} />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="성별" autoComplete="gender" onChange={handleChangeGender} />
+                  
+                   {/*  <CFormInput placeholder="성별" autoComplete="gender" onChange={handleChangeGender} /> */}
+                   
+                   <CFormCheck 
+                   inline 
+                   type="radio" 
+                   name="inlineRadioOptions" 
+                   id="inlineCheckbox1" 
+                   value="X" 
+                   label="선택안함"
+                   onChange={(e) => handleChangeGender(e)} // 여기서 handleChangeGender 함수 호출
+                   />
+                  <CFormCheck 
+                   inline 
+                   type="radio" 
+                   name="inlineRadioOptions" 
+                   id="inlineCheckbox2" 
+                   value="M" 
+                   label="남" 
+                   onChange={(e) => handleChangeGender(e)} // 여기서 handleChangeGender 함수 호출
+                  />
+                  <CFormCheck 
+                  inline 
+                  type="radio" 
+                  name="inlineRadioOptions" 
+                  id="inlineCheckbox3" 
+                  value="G" 
+                  label="여" 
+                  onChange={(e) => handleChangeGender(e)} // 여기서 handleChangeGender 함수 호출
+                 />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
