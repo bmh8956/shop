@@ -51,11 +51,11 @@ import { HttpHeadersContext } from "../../../context/HttpHeadersProvider"
     const login = async () => {
   
       const req = {
-        id: id,
+        email: id,
         pwd: pwd
       }
   
-      await axios.post("http://localhost:3011/memberTest/memberloginTest", req)
+      await axios.post("http://localhost:3011/member/login", req)
       .then((resp) => {
         console.log("[Login.js] login() success :D");
         console.log(resp.data);

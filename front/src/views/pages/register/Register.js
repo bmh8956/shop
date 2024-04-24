@@ -56,7 +56,7 @@ function Join() {
     }
     
     /* await axios.post("http://localhost:3011/user/join", req) */
-       await axios.post("http://localhost:3011/memberTest/MemberCreateTest", req)
+       await axios.post("http://localhost:3011/member/id", req)
       .then((resp) => {
         console.log("[Join.js] join() success :D");
         console.log(resp.data);
