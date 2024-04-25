@@ -61,7 +61,7 @@ public class MemberController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest req) {
     	
         System.out.println("MemberController login " + new Date());
-        
+            
         return ResponseEntity.ok(service.login(req));
     }
 
