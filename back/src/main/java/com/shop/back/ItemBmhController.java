@@ -1,45 +1,29 @@
 package com.shop.back;
 
-import com.shop.back.cart.entity.Cart;
 import com.shop.back.category.entity.Category;
 import com.shop.back.category.repository.CategoryRepository;
-import com.shop.back.item.dto.ItemFormDto;
-import com.shop.back.item.entity.File_item;
 import com.shop.back.item.entity.Item;
 import com.shop.back.item.entity.ItemGroup;
 import com.shop.back.item.repository.ItemGroupRepository;
 import com.shop.back.item.repository.ItemRepository;
-import com.shop.back.like.entity.Likes;
-import com.shop.back.member.dto.request.JoinRequest;
-import com.shop.back.member.dto.response.JoinResponse;
 import com.shop.back.member.entity.Member;
 import com.shop.back.member.repository.MemberRepository;
 import com.shop.back.order.entity.OrderItem;
 import com.shop.back.order.entity.Orders;
 import com.shop.back.order.repository.OrderItemRepository;
 import com.shop.back.order.repository.OrderRepository;
-import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
-import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
 @RestController
 @RequiredArgsConstructor
-public class TestController {
+public class ItemBmhController {
 	private final CategoryRepository categoryRepository;
 	private final ItemGroupRepository itemGroupRepository;
 	private final ItemRepository itemRepository;
