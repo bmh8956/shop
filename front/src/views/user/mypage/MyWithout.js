@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import MyPageTabs from "src/views/user/mypage/MyPageTabs";
-import {CButton, CCard, CCardBody, CCol, CFormInput, CFormLabel, CRow} from "@coreui/react";
+import { CButton, CCard, CCardBody, CCol, CFormInput, CFormLabel, CRow } from "@coreui/react";
 import UserMyPageMemberService from "src/services/UserMyPageMemberService";
+import Logout from 'src/views/user/Logout';
 
 const MyWithout = () => {
   const [userData, setUserData] = useState(null);
   const [pwd, setPwd] = useState('');
   const [error, setError] = useState('');
   const [withdrawn, setWithdrawn] = useState(false);
+  const [logoutRequested, setLogoutRequested] = useState(false); // 로그아웃 요청 상태 추가
   const email = localStorage.getItem('email');
 
   const handleCheckPassword = async () => {
@@ -18,11 +20,13 @@ const MyWithout = () => {
       if (response.status === 200 && response.data === "비밀번호가 일치합니다.") {
         handleWithdraw();
       } else {
-        setError("비밀번호가 일치하지 않습니다.");
+        // 비밀번호가 일치하지 않을 때 에러 메시지를 알림창으로 띄웁니다.
+        alert('비밀번호가 일치하지 않습니다.');
       }
     } catch (error) {
       console.error("Error checking password:", error);
-      setError("비밀번호가 일치하지 않습니다.");
+      // 비밀번호 체크 중 오류가 발생하면 에러 메시지를 알림창으로 띄웁니다.
+      alert('비밀번호가 일치하지 않습니다.');
     }
   };
 
@@ -33,6 +37,7 @@ const MyWithout = () => {
       if (response.status === 200 && response.data === "회원 탈퇴가 완료되었습니다") {
         // 탈퇴 성공 시 처리
         setWithdrawn(true);
+        setLogoutRequested(true); // 로그아웃 요청 상태를 설정합니다.
         alert('탈퇴가 완료되었습니다.');
       } else {
         // 탈퇴 실패 시 처리
@@ -59,82 +64,86 @@ const MyWithout = () => {
     fetchUserData();
   }, [email]);
 
-  if (withdrawn) {
-    // 로그아웃 처리
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('email');
-    // 홈으로 이동
-    window.location.href = '/';
-    return null;
-  }
+  useEffect(() => {
+    if (withdrawn && logoutRequested) {
+      // 로그아웃 처리
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('email');
+      // 홈으로 이동
+      window.location.href = '/';
+    }
+  }, [withdrawn, logoutRequested]);
 
   return (
-    <CCol xs={12}>
-      <CCard className="mb-4">
-        <CCardBody>
-          <MyPageTabs/>
-
+    <>
+      {withdrawn && <Logout />} {/* 탈퇴가 완료되고 로그아웃 요청이 들어왔을 때만 로그아웃 컴포넌트를 렌더링합니다. */}
+      <CCol xs={12}>
+        <CCard className="mb-4">
           <CCardBody>
-            <CCol sm={12} style={{marginTop: "10px"}}>
+            <MyPageTabs/>
 
-              <h5><b>회원 탈퇴</b></h5><p/>
+            <CCardBody>
+              <CCol sm={12} style={{marginTop: "10px"}}>
 
-              <div style={{marginTop: "40px"}}>
-                {/* 이메일 입력란 */}
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputEmail" className="col-sm-2 col-form-label">이메일</CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      placeholder="이메일"
-                      autoComplete="email"
-                      readOnly plainText
-                      value={email}
-                      required
-                      defaultValue={userData ? userData.email : ''}
-                      type={'email'}
-                    />
+                <h5><b>회원 탈퇴</b></h5><p/>
+
+                <div style={{marginTop: "40px"}}>
+                  {/* 이메일 입력란 */}
+                  <CRow className="mb-3">
+                    <CFormLabel htmlFor="inputEmail" className="col-sm-2 col-form-label">이메일</CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        placeholder="이메일"
+                        autoComplete="email"
+                        readOnly plainText
+                        value={email}
+                        required
+                        defaultValue={userData ? userData.email : ''}
+                        type={'email'}
+                      />
+                    </CCol>
+                  </CRow>
+
+                  {/* 비밀번호 입력란 */}
+                  <CRow className="mb-3">
+                    <CFormLabel htmlFor="inputPassword" className="col-sm-2 col-form-label">비밀번호</CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        placeholder="비밀번호"
+                        type="password"
+                        value={pwd}
+                        onChange={(e) => setPwd(e.target.value)}
+                        style={{width: "285px"}}
+                      />
+                    </CCol>
+                  </CRow>
+                </div>
+                {error && (
+                  <CRow className="mb-3">
+                    <CCol sm={12} className="text-center">
+                      <p className="text-danger">{error}</p>
+                    </CCol>
+                  </CRow>
+                )}
+
+                {/* 탈퇴 버튼 */}
+                <CRow>
+                  <CCol className="d-grid gap-2 d-md-flex justify-content-md-end" sm={12}>
+                    <CButton
+                      color="primary"
+                      onClick={handleCheckPassword}
+                    >
+                      탈퇴하기
+                    </CButton>
                   </CCol>
                 </CRow>
 
-                {/* 비밀번호 입력란 */}
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputPassword" className="col-sm-2 col-form-label">비밀번호</CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      placeholder="비밀번호"
-                      type="password"
-                      value={pwd}
-                      onChange={(e) => setPwd(e.target.value)}
-                      style={{width: "285px"}}
-                    />
-                  </CCol>
-                </CRow>
-              </div>
-              {error && (
-                <CRow className="mb-3">
-                  <CCol sm={12} className="text-center">
-                    <p className="text-danger">{error}</p>
-                  </CCol>
-                </CRow>
-              )}
-
-              {/* 탈퇴 버튼 */}
-              <CRow>
-                <CCol className="d-grid gap-2 d-md-flex justify-content-md-end" sm={12}>
-                  <CButton
-                    color="primary"
-                    onClick={handleCheckPassword}
-                  >
-                    탈퇴하기
-                  </CButton>
-                </CCol>
-              </CRow>
-
-            </CCol>
+              </CCol>
+            </CCardBody>
           </CCardBody>
-        </CCardBody>
-      </CCard>
-    </CCol>
+        </CCard>
+      </CCol>
+    </>
   );
 };
 
