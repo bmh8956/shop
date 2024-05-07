@@ -91,12 +91,12 @@ const Signup = () => {
         <CCard className="mx-4">
           <CCardBody className="p-4">
             <CForm onSubmit={postMember}>
-              <h1>Register</h1>
-              <p className="text-body-secondary">Create your account</p>
+              <h1>회원가입</h1>
+              <p />
               <CInputGroup className="mb-3">
                 <CInputGroupText>@</CInputGroupText>
                 <CFormInput
-                  placeholder="Email"
+                  placeholder="이메일"
                   autoComplete="email"
                   type={'email'}
                   name={'email'}
@@ -110,7 +110,7 @@ const Signup = () => {
                 </CInputGroupText>
                 <CFormInput
                   type="password"
-                  placeholder="Password"
+                  placeholder="비밀번호"
                   autoComplete="new-password"
                   name={'pwd'}
                   required
@@ -123,7 +123,7 @@ const Signup = () => {
                 </CInputGroupText>
                 <CFormInput
                   type="password"
-                  placeholder="Repeat password"
+                  placeholder="비밀번호 재입력"
                   autoComplete="new-password"
                   name={'checkPwd'}
                   required
@@ -210,7 +210,7 @@ const Signup = () => {
                 />
               </CInputGroup>
               <div className="d-grid">
-                <CButton color="success" type={'submit'}>Create Account</CButton>
+                <CButton color="primary" type={'submit'}>회원가입</CButton>
               </div>
             </CForm>
           </CCardBody>

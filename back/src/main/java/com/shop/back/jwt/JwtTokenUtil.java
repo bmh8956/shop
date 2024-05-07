@@ -136,7 +136,8 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
 
         // refreshToken을 쿠키에 저장
-        createCookie(response, "refreshToken", refreshToken, refreshExpirationMs / 1000, true, true, "/");
+        createCookie(response, "refreshToken", refreshToken,
+                refreshExpirationMs / 1000, true, true, "/");
 
         return refreshToken;
     }

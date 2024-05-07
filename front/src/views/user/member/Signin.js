@@ -62,20 +62,20 @@ const Signin = () => {
 
   return (
     <CRow className="justify-content-center">
-      <CCol md={8}>
+      <CCol md={5}>
         <CCardGroup>
           <CCard className="p-4">
             <CCardBody>
               <CForm onSubmit={login}>
-                <h1>Login</h1>
-                <p className="text-body-secondary">Sign In to your account</p>
+                <h1>로그인</h1>
+                <p />
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilUser}/>
                   </CInputGroupText>
                   <CFormInput
                     type={'email'}
-                    placeholder="Email"
+                    placeholder="이메일"
                     autoComplete="email"
                     name={'email'}/>
                 </CInputGroup>
@@ -85,42 +85,42 @@ const Signin = () => {
                   </CInputGroupText>
                   <CFormInput
                     type="password"
-                    placeholder="Password"
+                    placeholder="비밀번호"
                     autoComplete="current-password"
                     name={'pwd'}
                   />
                 </CInputGroup>
                 <CRow>
                   <CCol xs={6}>
-                    <CButton color="primary" className="px-4" type={'submit'}>
-                      Login
+                    <CButton color="primary" className="px-6" type={'submit'}>
+                      로그인
                     </CButton>
                   </CCol>
-                  <CCol xs={6} className="text-right">
-                    <CButton color="link" className="px-0">
-                      Forgot password?
-                    </CButton>
-                  </CCol>
+                  {/*<CCol xs={6} className="text-right">*/}
+                  {/*  <CButton color="link" className="px-0">*/}
+                  {/*    Forgot password?*/}
+                  {/*  </CButton>*/}
+                  {/*</CCol>*/}
                 </CRow>
               </CForm>
             </CCardBody>
           </CCard>
-          <CCard className="text-white bg-primary py-5" style={{width: '44%'}}>
-            <CCardBody className="text-center">
-              <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <Link to="/register">
-                  <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                    Register Now!
-                  </CButton>
-                </Link>
-              </div>
-            </CCardBody>
-          </CCard>
+          {/*<CCard className="text-white bg-primary py-5" style={{width: '44%'}}>*/}
+          {/*  <CCardBody className="text-center">*/}
+          {/*    <div>*/}
+          {/*      <h2>Sign up</h2>*/}
+          {/*      <p>*/}
+          {/*        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod*/}
+          {/*        tempor incididunt ut labore et dolore magna aliqua.*/}
+          {/*      </p>*/}
+          {/*      <Link to="/register">*/}
+          {/*        <CButton color="primary" className="mt-3" active tabIndex={-1}>*/}
+          {/*          Register Now!*/}
+          {/*        </CButton>*/}
+          {/*      </Link>*/}
+          {/*    </div>*/}
+          {/*  </CCardBody>*/}
+          {/*</CCard>*/}
         </CCardGroup>
       </CCol>
     </CRow>
