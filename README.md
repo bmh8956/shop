@@ -1,5 +1,9 @@
-yarn add @tinymce/tinymce-react
+https://github.com/coreui/coreui-free-react-admin-template
+coreui 사용
 
+
+//  오류 발생시 추가
+yarn add @tinymce/tinymce-react
 
 yarn add @fortawesome/fontawesome-svg-core --save-dev
 
