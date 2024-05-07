@@ -80,13 +80,20 @@ function SizeTable({data}) {
             index < row.length - 1 &&
             <CTableRow key={index}>
               <CTableDataCell active>
-                <CFormInput placeholder={'사이즈'} id={(it) + '-0'} data-row={it} data-col={0} defaultValue={info.length ? info[index + 1][0].value : ''} />
+                <CFormInput placeholder={'사이즈'} id={(it) + '-0'}
+                            data-row={it}
+                            data-col={0}
+                            defaultValue={info.length ? info[index + 1][0].value : ''} />
               </CTableDataCell>
               {
                 col.map((c, cIndex) => (
                   cIndex < col.length - 1 &&
                   <CTableDataCell key={cIndex}>
-                    <CFormInput placeholder={String(it) + '-' + Number(cIndex + 1)} id={String(it) + '-' + Number(cIndex + 1)} data-row={it} data-col={cIndex + 1} defaultValue={info.length ? info[it][cIndex + 1].value : ''} />
+                    <CFormInput placeholder={String(it) + '-' + Number(cIndex + 1)}
+                                id={String(it) + '-' + Number(cIndex + 1)}
+                                data-row={it}
+                                data-col={cIndex + 1}
+                                defaultValue={info.length ? info[it][cIndex + 1].value : ''} />
                   </CTableDataCell>
                 ))
               }
