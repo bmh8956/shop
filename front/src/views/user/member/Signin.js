@@ -71,15 +71,15 @@ const Signin = () => {
           <CCard className="p-4">
             <CCardBody>
               <CForm onSubmit={login}>
-                <h1>Login</h1>
-                <p className="text-body-secondary">Sign In to your account</p>
+                <h1>로그인</h1>
+                <p />
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilUser}/>
                   </CInputGroupText>
                   <CFormInput
                     type={'email'}
-                    placeholder="Email"
+                    placeholder="이메일"
                     autoComplete="email"
                     name={'email'}/>
                 </CInputGroup>
@@ -89,7 +89,7 @@ const Signin = () => {
                   </CInputGroupText>
                   <CFormInput
                     type="password"
-                    placeholder="Password"
+                    placeholder="비밀번호"
                     autoComplete="current-password"
                     name={'pwd'}
                   />
@@ -108,6 +108,11 @@ const Signin = () => {
                       회원가입
                     </CButton>
                   </CCol>
+                  {/*<CCol xs={6} className="text-right">*/}
+                  {/*  <CButton color="link" className="px-0">*/}
+                  {/*    Forgot password?*/}
+                  {/*  </CButton>*/}
+                  {/*</CCol>*/}
                 </CRow>
               </CForm>
             </CCardBody>

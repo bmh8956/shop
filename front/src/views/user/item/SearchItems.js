@@ -1,15 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {CButton, CCard, CCardBody, CCardHeader, CCardText, CCarousel, CCarouselItem, CCol, CRow} from "@coreui/react";
-import {DocsExample} from "src/components";
-import ReactImg from "src/assets/images/react.jpg";
-import AngularImg from "src/assets/images/angular.jpg";
-import VueImg from "src/assets/images/vue.jpg";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import CIcon from "@coreui/icons-react";
-import CoreUIIcons from "src/views/icons/coreui-icons/CoreUIIcons";
-import {freeSet} from "@coreui/icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar, faStarHalf, faHeart} from "@fortawesome/free-solid-svg-icons"
 
 import axios from "axios";
 import ItemList from "src/views/user/item/ItemList";

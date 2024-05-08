@@ -12,6 +12,7 @@ import com.shop.back.member.entity.Member;
 import com.shop.back.member.exception.MemberException;
 import com.shop.back.member.repository.MemberRepository;
 import com.shop.back.member.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,6 +55,7 @@ public class MemberController {
 
 
     @GetMapping
+    @Operation(summary = "이메일 중복을 요청하는 API")
     public ResponseEntity<?> checkEmailDuplicate(@RequestParam("email") String email) {
         System.out.println("이메일 중복 요청 성공: " + email);
         System.out.println("MemberController checkEmailDuplicate " + new Date());
@@ -64,6 +66,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/join")
+    @Operation(summary = "회원 회원가입 API")
     public ResponseEntity<JoinResponse> join(@Valid @RequestBody JoinRequest req) {
         System.out.println("MemberController join " + new Date());
 
@@ -72,6 +75,7 @@ public class MemberController {
 
     //로그인
     @PostMapping("/login")
+    @Operation(summary = "회원 로그인 API")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest req, HttpServletResponse response) {
         System.out.println("MemberController login " + new Date());
 
@@ -80,6 +84,7 @@ public class MemberController {
 
     //로그아웃
     @PostMapping("/logout")
+    @Operation(summary = "회원 로그아웃 API")
     public void logout(HttpServletResponse response) {
         // refreshToken 쿠키를 만료시킵니다.
         jwtTokenUtil.expireCookie(response, "refreshToken");
@@ -87,6 +92,7 @@ public class MemberController {
 
     //마이페이지 회원 조회
     @GetMapping("/mypage/{id}")
+    @Operation(summary = "마이페이지 회원 조회 API")
     public ResponseEntity<MemberResponse> getMemberInfo(@RequestHeader("Authorization") String token) {
         //JWT 토큰에서 사용자 이메일 추출
         String memberEmail = jwtTokenUtil.getUsernameFromToken(token);

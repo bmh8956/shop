@@ -1,5 +1,9 @@
-yarn add @tinymce/tinymce-react
+https://github.com/coreui/coreui-free-react-admin-template
+coreui 사용
 
+
+//  오류 발생시 추가
+yarn add @tinymce/tinymce-react
 
 yarn add @fortawesome/fontawesome-svg-core --save-dev
 
@@ -11,10 +15,7 @@ yarn add @fortawesome/free-brands-svg-icons --save-dev
 
 yarn add @fortawesome/free-regular-svg-icons --save-dev
 
-
-
-
-# Bulletin Board System
+# HYPESHOP
 `쇼핑몰` 웹 애플리케이션 프로젝트 입니다. <br/><br/>
 
 
@@ -22,7 +23,6 @@ yarn add @fortawesome/free-regular-svg-icons --save-dev
 * [사용 기술](#-사용-기술)
 * [구현 기능](#-구현-기능)
 * [API 명세서](#-API-명세서)
-* [ERD 설계](#-ERD-설계)
 
 
 # 🕹 사용 기술
@@ -110,6 +110,4 @@ yarn add @fortawesome/free-regular-svg-icons --save-dev
 
 # 🤙🏻 API 명세서
 HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 설계했습니다. <br/><br/>
-
-
 
