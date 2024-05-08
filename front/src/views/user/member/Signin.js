@@ -29,6 +29,10 @@ const Signin = () => {
       data[k] = frm.get(k)
     }
     console.log(data)
+    if(!data.email.trim() || !data.pwd.trim() ) {
+      alert('이메일 또는 비밀번호를 확인해주세요')
+      return
+    }
 
     axios.post('http://localhost:3011/user/login', data, { withCredentials: true }).then((res) => {
       console.log(res);
@@ -62,7 +66,7 @@ const Signin = () => {
 
   return (
     <CRow className="justify-content-center">
-      <CCol md={8}>
+      <CCol md={5}>
         <CCardGroup>
           <CCard className="p-4">
             <CCardBody>
@@ -91,36 +95,39 @@ const Signin = () => {
                   />
                 </CInputGroup>
                 <CRow>
-                  <CCol xs={6}>
-                    <CButton color="primary" className="px-4" type={'submit'}>
-                      Login
+                  <CCol style={{textAlign: 'right'}}>
+                    <CButton color="primary" type={'submit'} style={{width: '100%'}}>
+                      로그인
                     </CButton>
                   </CCol>
-                  <CCol xs={6} className="text-right">
-                    <CButton color="link" className="px-0">
-                      Forgot password?
+                </CRow>
+                <p/>
+                <CRow>
+                  <CCol style={{textAlign: 'right'}}>
+                    <CButton color="primary" type={'button'} style={{width: '100%'}} onClick={() => navigator('/signup')}>
+                      회원가입
                     </CButton>
                   </CCol>
                 </CRow>
               </CForm>
             </CCardBody>
           </CCard>
-          <CCard className="text-white bg-primary py-5" style={{width: '44%'}}>
-            <CCardBody className="text-center">
-              <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <Link to="/register">
-                  <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                    Register Now!
-                  </CButton>
-                </Link>
-              </div>
-            </CCardBody>
-          </CCard>
+          {/*<CCard className="text-white bg-primary py-5" style={{width: '44%'}}>*/}
+          {/*  <CCardBody className="text-center">*/}
+          {/*    <div>*/}
+          {/*      <h2>Sign up</h2>*/}
+          {/*      <p>*/}
+          {/*        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod*/}
+          {/*        tempor incididunt ut labore et dolore magna aliqua.*/}
+          {/*      </p>*/}
+          {/*      <Link to="/register">*/}
+          {/*        <CButton color="primary" className="mt-3" active tabIndex={-1}>*/}
+          {/*          Register Now!*/}
+          {/*        </CButton>*/}
+          {/*      </Link>*/}
+          {/*    </div>*/}
+          {/*  </CCardBody>*/}
+          {/*</CCard>*/}
         </CCardGroup>
       </CCol>
     </CRow>

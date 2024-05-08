@@ -9,9 +9,7 @@ import com.shop.back.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +52,23 @@ public class LikesService {
 		List<Likes> list = likesRepositroy.findByMemberAndDel(member, 1);
 
 		return list;
+	}
+
+	public Map<String, String> getOne(Long itemGroupId, String email) {
+		Member member = memberRepository.findByEmail(email);
+		Optional.ofNullable(member).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+		if(!member.getRole().equals("USER") || !member.getRole().equals("ADMIN")) {
+			new RuntimeException("권한 문제");
+		}
+		ItemGroup itemGroup = itemGroupRepository.findById(itemGroupId).get();
+		Optional<Likes> op = likesRepositroy.findByMemberAndItemGroup(member, itemGroup);
+		Map<String, String> res = new HashMap<>();
+		if(op.isPresent()) {
+			res.put("msg", "succ");
+		} else {
+			res.put("msg", "null");
+		}
+
+		return res;
 	}
 }

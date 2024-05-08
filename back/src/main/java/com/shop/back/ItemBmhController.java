@@ -6,6 +6,8 @@ import com.shop.back.item.entity.Item;
 import com.shop.back.item.entity.ItemGroup;
 import com.shop.back.item.repository.ItemGroupRepository;
 import com.shop.back.item.repository.ItemRepository;
+import com.shop.back.like.entity.Likes;
+import com.shop.back.like.repository.LikesRepositroy;
 import com.shop.back.member.entity.Member;
 import com.shop.back.member.repository.MemberRepository;
 import com.shop.back.order.entity.OrderItem;
@@ -30,6 +32,7 @@ public class ItemBmhController {
 	private final MemberRepository memberRepository;
 	private final OrderRepository orderRepository;
 	private final OrderItemRepository orderItemRepository;
+	private final LikesRepositroy likesRepositroy;
 
 //	@PostMapping("/test")
 //	public ResponseEntity<?> test() {
@@ -82,8 +85,8 @@ public class ItemBmhController {
 		Category category = categoryRepository.findById(categoryId).get();
 
 		List<ItemGroup> itemGroupList = itemGroupRepository.findByCategoryAndDelAndIsView(categoryId);
-		for(ItemGroup itemGroup : itemGroupList) {
-			for(Item item : itemGroup.getItems()) {
+		for (ItemGroup itemGroup : itemGroupList) {
+			for (Item item : itemGroup.getItems()) {
 				item.setItemGroup(null);
 			}
 		}
@@ -98,7 +101,7 @@ public class ItemBmhController {
 		System.out.println(itemGroupId);
 
 		ItemGroup itemGroup = itemGroupRepository.findById(itemGroupId).get();
-		for(Item item : itemGroup.getItems()) {
+		for (Item item : itemGroup.getItems()) {
 			item.setItemGroup(null);
 		}
 		System.out.println(itemGroup);
@@ -106,22 +109,54 @@ public class ItemBmhController {
 		return ResponseEntity.ok(itemGroup);
 	}
 
-	@PostMapping("/test/likes/{itemGroupId}")
-	public ResponseEntity<?> likeTest(@PathVariable("itemGroupId") Long itemGroupId) {
+	@PostMapping("/test/likes/{itemGroupId}/{email}")
+	public ResponseEntity<?> likeTest(@PathVariable("itemGroupId") Long itemGroupId, @PathVariable("email") String email) {
+		Map<String, String> res = new HashMap<>();
 		ItemGroup itemGroup = itemGroupRepository.findById(itemGroupId).get();
-//		Optional<Likes> op = likeRepository.findByItemGroup(itemGroup);
-//		Likes like = null;
-//		if(op.isPresent()) {
-//			like = op.get();
-//		    if(like.getDel() == 1) {
-//			    like.setDel(0);
-//		        likeRepository.save(like);
-//		    }
-//		} else {
-//		    여기서 insert?
-//	    }
+		Member member = memberRepository.findByEmail(email);
+		Optional.ofNullable(member).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+		if (!member.getRole().equals("USER") || !member.getRole().equals("ADMIN")) {
+			new RuntimeException("권한 문제");
+			res.put("msg", "login");
+		}
 
-		return ResponseEntity.ok(itemGroup);
+		Optional<Likes> op = likesRepositroy.findByMemberAndItemGroup(member, itemGroup);
+		Likes like = new Likes();
+		if (op.isPresent()) {
+			like = op.get();
+			likesRepositroy.delete(like);
+			res.put("msg", "delete");
+		} else {
+			like.setItemGroup(itemGroup);
+			like.setMember(member);
+			like.setDel(1);
+			likesRepositroy.save(like);
+			res.put("msg", "success");
+		}
+
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/test/likes/{itemGroupId}/{email}")
+	public ResponseEntity<?> likeGet(@PathVariable("itemGroupId") Long itemGroupId, @PathVariable("email") String email) {
+		Map<String, String> res = new HashMap<>();
+		ItemGroup itemGroup = itemGroupRepository.findById(itemGroupId).get();
+		Member member = memberRepository.findByEmail(email);
+		Optional.ofNullable(member).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+		if (!member.getRole().equals("USER") || !member.getRole().equals("ADMIN")) {
+			new RuntimeException("권한 문제");
+			res.put("msg", "login");
+		}
+
+		Optional<Likes> op = likesRepositroy.findByMemberAndItemGroup(member, itemGroup);
+		Likes like = new Likes();
+		if (op.isPresent()) {
+			res.put("msg", "success");
+		} else {
+			res.put("msg", "null");
+		}
+
+		return ResponseEntity.ok(res);
 	}
 
 	@GetMapping("/admin/items/test")
@@ -129,8 +164,8 @@ public class ItemBmhController {
 		System.out.println("=====================================================");
 
 		List<ItemGroup> itemGroupList = itemGroupRepository.findAll();
-		for(ItemGroup itemGroup : itemGroupList) {
-			for(Item item : itemGroup.getItems()) {
+		for (ItemGroup itemGroup : itemGroupList) {
+			for (Item item : itemGroup.getItems()) {
 				item.setItemGroup(null);
 			}
 		}
@@ -149,8 +184,8 @@ public class ItemBmhController {
 	@GetMapping("/item/index")
 	public ResponseEntity<?> mainPage() {
 		List<ItemGroup> list = itemGroupRepository.findAll();
-		for(ItemGroup itemGroup : list) {
-			for(Item item : itemGroup.getItems()) {
+		for (ItemGroup itemGroup : list) {
+			for (Item item : itemGroup.getItems()) {
 				item.setItemGroup(null);
 			}
 		}
@@ -163,11 +198,11 @@ public class ItemBmhController {
 		Member member = null;
 		String email = "";
 		Long orderId = null;
-		if(!orderDtoTest.isEmpty()) {
+		if (!orderDtoTest.isEmpty()) {
 			email = orderDtoTest.get(0).getEmail();
 			member = memberRepository.findByEmail(email);
 			Optional.ofNullable(member).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
-			if(!member.getRole().equals("USER") || !member.getRole().equals("ADMIN")) {
+			if (!member.getRole().equals("USER") || !member.getRole().equals("ADMIN")) {
 				new RuntimeException("권한 문제");
 			}
 		} else {
@@ -180,9 +215,9 @@ public class ItemBmhController {
 		orders.setStatus("결제대기");
 		orderId = orderRepository.save(orders).getId();
 
-		for(OrderDtoTest odt : orderDtoTest) {
+		for (OrderDtoTest odt : orderDtoTest) {
 			Optional<Item> opi = itemRepository.findById(odt.getItemId());
-			if(opi.isPresent()) {
+			if (opi.isPresent()) {
 				Item item = opi.get();
 				OrderItem orderItem = OrderItem.createOrderItem(item, odt.getCount());
 				orderItem.setOrders(orders);
@@ -197,14 +232,14 @@ public class ItemBmhController {
 	public ResponseEntity<?> getOrder(@PathVariable("email") String email, @PathVariable("orderId") Long orderId) {
 		Optional<Orders> op = orderRepository.findById(orderId);
 		Orders orders = null;
-		if(op.isPresent()) {
+		if (op.isPresent()) {
 			orders = op.get();
-			for(OrderItem oi : orders.getOrderItems()) {
+			for (OrderItem oi : orders.getOrderItems()) {
 				oi.setOrders(null);
 				oi.getItem().getItemGroup().setItems(null);
 			}
 		} else {
-            throw new RuntimeException("주문정보를 찾을 수 없습니다.");
+			throw new RuntimeException("주문정보를 찾을 수 없습니다.");
 		}
 
 
