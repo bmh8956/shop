@@ -1,6 +1,7 @@
 package com.shop.back.like.controller;
 
 import com.shop.back.like.entity.Likes;
+import com.shop.back.like.repository.LikesRepositroy;
 import com.shop.back.like.service.LikesService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,13 @@ public class LikeController {
 		}
 
 		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/{itemGroupId}/{email}")
+	public ResponseEntity<?> get(@PathVariable("itemGroupId") Long itemGroupId, @PathVariable("email") String email) {
+		System.out.println(email);
+		Map<String, String> res = likesService.getOne(itemGroupId, email);
+
+		return ResponseEntity.ok(res);
 	}
 }

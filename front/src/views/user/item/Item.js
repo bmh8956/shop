@@ -35,6 +35,7 @@ function Item() {
   const [colors, setColors] = useState([])
   const [isLike, setIsLike] = useState('outline')
   const navigator = useNavigate()
+  const [likeBtn, setLikeBtn] = useState('')
 
   const addCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -159,15 +160,37 @@ function Item() {
 
   const addView = () => {
     return
-    axios.put(`http://localhost:3011/item/views/${itemGroupId}`).then((res) => {
+    axios.put(`http://localhost:3011/test/item/views/${itemGroupId}`).then((res) => {
       console.log(res)
     })
   }
 
   const like = () => {
     const itemGroupId = group.id
-    axios.post(`http://localhost:3011/test/likes/${itemGroupId}`).then((res) => {
+    const email = localStorage.getItem('email')
+    if(!email) {
+      alert("로그인이 필요한 서비스입니다.")
+      return
+    }
+    axios.post(`http://localhost:3011/test/likes/${itemGroupId}/${email}`).then((res) => {
       console.log(res)
+      if(res.data.msg == 'success') {
+        setLikeBtn('active')
+      }
+    })
+  }
+
+  const likeCheck = () => {
+    const itemGroupId = group.id
+    const email = localStorage.getItem('email')
+    if(!email) {
+      return
+    }
+    axios.get(`http://localhost:3011/test/likes/${itemGroupId}/${email}`).then(res => {
+      console.log(res)
+      if(res.data.msg == 'success') {
+        setLikeBtn('active')
+      }
     })
   }
 
@@ -191,6 +214,12 @@ function Item() {
     getItem()
     addView()
   }, []);
+
+  useEffect(() => {
+    if(group.id) {
+      likeCheck()
+    }
+  }, [group]);
 
   return (
     <>
@@ -448,12 +477,12 @@ function Item() {
                   <CButton color={'primary'} style={{width: '100%'}} onClick={buyNow}>바로 구매</CButton>
                 </CCol>
                 <CCol xs={2} style={{textAlign: 'right'}}>
-                  <CButton color={'danger'} variant={'outline'} onClick={like}>
+                  <CButton color={'danger'} variant={"outline"} onClick={like} className={likeBtn}>
                     <CIcon icon={cilHeart}/>
                   </CButton>
                 </CCol>
                 <CCol xs={2} style={{textAlign: 'left'}}>
-                  <CButton color={'info'} variant={isLike} onClick={basket}>
+                  <CButton color={'info'} variant={'outline'} onClick={basket}>
                     <CIcon icon={cilBasket} />
                   </CButton>
                 </CCol>

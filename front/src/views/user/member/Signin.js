@@ -29,6 +29,10 @@ const Signin = () => {
       data[k] = frm.get(k)
     }
     console.log(data)
+    if(!data.email.trim() || !data.pwd.trim() ) {
+      alert('이메일 또는 비밀번호를 확인해주세요')
+      return
+    }
 
     axios.post('http://localhost:3011/user/login', data, { withCredentials: true }).then((res) => {
       console.log(res);
@@ -91,9 +95,17 @@ const Signin = () => {
                   />
                 </CInputGroup>
                 <CRow>
-                  <CCol xs={6}>
-                    <CButton color="primary" className="px-6" type={'submit'}>
+                  <CCol style={{textAlign: 'right'}}>
+                    <CButton color="primary" type={'submit'} style={{width: '100%'}}>
                       로그인
+                    </CButton>
+                  </CCol>
+                </CRow>
+                <p/>
+                <CRow>
+                  <CCol style={{textAlign: 'right'}}>
+                    <CButton color="primary" type={'button'} style={{width: '100%'}} onClick={() => navigator('/signup')}>
+                      회원가입
                     </CButton>
                   </CCol>
                   {/*<CCol xs={6} className="text-right">*/}
