@@ -33,6 +33,14 @@ function Items({props}) {
 
   const getItems = () => {
     axios.get('http://localhost:3011/item/index').then(async (res) => {
+      if(!localStorage.getItem('email')) {
+        const data = res.data
+        for(const it of data) {
+          it.isLike = 0
+        }
+        setItems(data)
+        return
+      }
       await getLikes(res.data)
     })
   }

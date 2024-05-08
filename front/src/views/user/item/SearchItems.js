@@ -20,6 +20,14 @@ function Items({props}) {
 
   const getItems = () => {
     axios.get('http://localhost:3011/items/test/' + category_id).then((res) => {
+      if(!localStorage.getItem('email')) {
+        const data = res.data
+        for(const it of data) {
+          it.isLike = 0
+        }
+        setItems(data)
+        return
+      }
       getLikes(res.data)
       // setItems(res.data)
     })
